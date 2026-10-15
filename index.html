@@ -1,0 +1,473 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Adobe @ The U</title>
+<meta name="description" content="Free hands-on Adobe workshops and creative challenges for University of Utah students, hosted by your Adobe Student Ambassador.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --utah-red: #CC0000;
+    --ink: #0e0d12;
+    --ink-2: #17151d;
+    --paper: #ffffff;
+    --soft: #f6f5f9;
+    --line: #ebe9f0;
+    --text: #3d3a46;
+    --muted: #9a97a6;
+    --coral: #ff5a4e;
+    --magenta: #e0338f;
+    --violet: #7b4dff;
+    --grad: linear-gradient(100deg, #CC0000 0%, #ff5a4e 45%, #e0338f 75%, #7b4dff 100%);
+    --display: 'Space Grotesk', 'Segoe UI', system-ui, sans-serif;
+    --body: 'Inter', 'Segoe UI', system-ui, sans-serif;
+    --wrap: 1160px;
+    --gutter: clamp(16px, 5vw, 48px);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body { background: var(--paper); color: var(--ink); font-family: var(--body); line-height: 1.6; overflow-x: hidden; }
+  a { color: inherit; }
+  img { max-width: 100%; }
+  .wrap { max-width: var(--wrap); margin: 0 auto; padding: 0 var(--gutter); }
+  .grad-text { background: var(--grad); -webkit-background-clip: text; background-clip: text; color: transparent; }
+  .ph { color: var(--utah-red); font-weight: 600; }
+  .dark .ph { color: #ff8a80; }
+
+  .eyebrow { font: 700 13px/1 var(--body); letter-spacing: .18em; text-transform: uppercase; color: var(--utah-red); }
+  .dark .eyebrow { color: var(--coral); }
+  h2 { font: 700 clamp(38px, 5.4vw, 64px)/1.02 var(--display); letter-spacing: -.035em; margin-top: 14px; }
+  h3 { font: 700 21px/1.2 var(--display); letter-spacing: -.01em; }
+  .rule { height: 6px; width: 72px; background: var(--grad); border-radius: 3px; margin-top: 22px; }
+  .lead { margin-top: 18px; font-size: 18px; color: var(--text); max-width: 620px; }
+  .dark { background: var(--ink); color: #fff; }
+  .dark p, .dark .lead { color: #cfccd8; }
+  section { position: relative; padding: clamp(80px, 11vw, 140px) 0; }
+
+  .btn { display: inline-flex; align-items: center; gap: 10px; padding: 16px 28px; border-radius: 999px;
+         font: 700 16px/1 var(--body); text-decoration: none; transition: transform .2s, box-shadow .2s; }
+  .btn-grad { background: var(--grad); color: #fff; box-shadow: 0 12px 34px rgba(224,51,143,.35); }
+  .btn-grad:hover { transform: translateY(-2px); box-shadow: 0 16px 44px rgba(224,51,143,.5); }
+  .btn-ghost { border: 1.5px solid rgba(255,255,255,.3); color: #fff; }
+  .btn-ghost:hover { background: rgba(255,255,255,.08); }
+  .btn:focus-visible, a:focus-visible, button:focus-visible { outline: 3px solid var(--coral); outline-offset: 3px; }
+
+  /* app-style letter tiles (generic, not official logos) */
+  .tile { width: 84px; height: 84px; border-radius: 20px; display: grid; place-items: center; flex: none;
+          font: 700 36px/1 var(--display); letter-spacing: -.02em;
+          box-shadow: 0 18px 40px rgba(0,0,0,.35), inset 0 0 0 2px rgba(255,255,255,.08); }
+  .t-ps { background: #001e36; color: #31a8ff; }
+  .t-pr { background: #00005b; color: #9999ff; }
+  .t-ai { background: #330000; color: #ff9a00; }
+  .t-ex { background: linear-gradient(135deg, #ff3c2f, #c41fd6 60%, #6a3cff); color: #fff; }
+
+  .blob { position: absolute; border-radius: 50%; filter: blur(90px); pointer-events: none; }
+
+  /* ---------- nav ---------- */
+  .nav { position: fixed; inset: 0 0 auto; z-index: 50; transition: background .3s, backdrop-filter .3s; }
+  .nav.scrolled { background: rgba(14,13,18,.78); backdrop-filter: blur(14px); border-bottom: 1px solid rgba(255,255,255,.08); }
+  .nav .wrap { display: flex; align-items: center; justify-content: space-between; height: 72px; }
+  .brand { display: inline-flex; align-items: center; gap: 10px; font: 700 18px/1 var(--display); color: #fff; text-decoration: none; letter-spacing: -.01em; }
+  .brand .dot { width: 10px; height: 10px; border-radius: 50%; background: var(--utah-red); box-shadow: 0 0 0 5px rgba(204,0,0,.28); }
+  .links { display: flex; align-items: center; gap: 30px; list-style: none; }
+  .links a { color: #d8d5e0; text-decoration: none; font: 500 15px/1 var(--body); }
+  .links a:hover { color: #fff; }
+  .links .btn { padding: 12px 20px; font-size: 14px; color: #fff; }
+  .menu { display: none; background: none; border: 0; color: #fff; width: 44px; height: 44px; cursor: pointer; }
+  .menu span { display: block; width: 22px; height: 2px; background: currentColor; margin: 5px auto; transition: transform .25s, opacity .25s; }
+  .nav.open .menu span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+  .nav.open .menu span:nth-child(2) { opacity: 0; }
+  .nav.open .menu span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+  /* ---------- hero ---------- */
+  .hero { min-height: 100vh; min-height: 100svh; display: flex; align-items: center; overflow: hidden; padding: 120px 0 80px; }
+  .hero .b1 { width: 680px; height: 680px; background: var(--utah-red); top: -220px; right: -200px; opacity: .8; animation: drift1 16s ease-in-out infinite; }
+  .hero .b2 { width: 520px; height: 520px; background: var(--magenta); bottom: -120px; left: -240px; opacity: .45; animation: drift2 18s ease-in-out infinite; }
+  .hero .b3 { width: 520px; height: 520px; background: var(--violet); bottom: -260px; right: 10%; opacity: .5; animation: drift1 20s ease-in-out infinite reverse; }
+  .grain { position: absolute; inset: 0; background: radial-gradient(rgba(255,255,255,.035) 1px, transparent 1px) 0 0/6px 6px; pointer-events: none; }
+  @keyframes drift1 { 50% { transform: translate(-80px, 60px) scale(1.08); } }
+  @keyframes drift2 { 50% { transform: translate(90px, -70px) scale(1.1); } }
+
+  .hero .wrap { position: relative; width: 100%; display: grid; grid-template-columns: 1fr auto; gap: 40px; align-items: center; }
+  .tag { display: inline-flex; align-items: center; gap: 12px; font: 600 13px/1.4 var(--body); letter-spacing: .16em; text-transform: uppercase; }
+  .tag .dot { width: 10px; height: 10px; border-radius: 50%; background: var(--utah-red); box-shadow: 0 0 0 5px rgba(204,0,0,.25); flex: none; }
+  .hero h1 { margin-top: 30px; font: 700 clamp(64px, 11vw, 148px)/.93 var(--display); letter-spacing: -.05em; }
+  .hero h1 .line { display: block; overflow: hidden; padding-bottom: .06em; }
+  .hero h1 .wd { display: inline-block; transform: translateY(110%); animation: rise .9s cubic-bezier(.2,.8,.2,1) forwards; }
+  @keyframes rise { to { transform: none; } }
+  .hero .lead { font-size: clamp(17px, 1.6vw, 20px); margin-top: 28px; max-width: 540px; opacity: 0; animation: fade .8s 1.1s forwards; }
+  .hero .ctas { margin-top: 36px; display: flex; flex-wrap: wrap; gap: 14px; opacity: 0; animation: fade .8s 1.3s forwards; }
+  @keyframes fade { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
+
+  .tiles { display: grid; grid-template-columns: repeat(2, 120px); gap: 22px; transform: rotate(8deg); margin-right: 20px; }
+  .tiles .tile { width: 120px; height: 120px; border-radius: 28px; font-size: 52px; opacity: 0;
+                 animation: pop .7s cubic-bezier(.3,1.6,.5,1) forwards, float 5s ease-in-out infinite; }
+  .tiles .tile:nth-child(1) { animation-delay: 1.0s, 1.7s; }
+  .tiles .tile:nth-child(2) { animation-delay: 1.15s, 2.3s; margin-top: 44px; }
+  .tiles .tile:nth-child(3) { animation-delay: 1.3s, 2.0s; }
+  .tiles .tile:nth-child(4) { animation-delay: 1.45s, 2.6s; margin-top: 44px; }
+  @keyframes pop { from { opacity: 0; transform: scale(0) rotate(30deg); } to { opacity: 1; transform: none; } }
+  @keyframes float { 50% { translate: 0 -12px; } }
+
+  .scroll-cue { position: absolute; left: 50%; bottom: 28px; translate: -50% 0; font: 600 11px/1 var(--body); letter-spacing: .2em;
+                text-transform: uppercase; color: #a9a6b3; text-decoration: none; opacity: 0; animation: fade .8s 1.8s forwards; }
+
+  /* ---------- pillars strip ---------- */
+  .pillars { padding: 0; background: var(--ink); }
+  .pillars .wrap { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; transform: translateY(-50%); }
+  .chip { border: 1px solid rgba(255,255,255,.16); background: rgba(30,28,38,.82); backdrop-filter: blur(12px); border-radius: 22px; padding: 24px 26px; color: #fff; text-decoration: none; transition: transform .2s, border-color .2s; }
+  .chip:hover { transform: translateY(-3px); border-color: rgba(255,255,255,.35); }
+  .chip .n { font: 700 12px/1 var(--display); color: var(--coral); letter-spacing: .1em; }
+  .chip .t { margin-top: 10px; font: 700 24px/1.1 var(--display); }
+
+  /* ---------- about ---------- */
+  .about { padding-top: 40px; }
+  .meet { margin-top: 48px; display: grid; grid-template-columns: 220px 1fr; gap: 44px; align-items: center; background: var(--soft); border-radius: 30px; padding: 40px; }
+  .photo { width: 220px; height: 220px; border-radius: 50%; background: var(--grad); padding: 6px; }
+  .photo div { width: 100%; height: 100%; border-radius: 50%; background: #fff; display: grid; place-items: center; text-align: center;
+               font: 600 12px/1.4 var(--body); color: var(--muted); letter-spacing: .12em; text-transform: uppercase; }
+  .meet .name { font: 700 36px/1.05 var(--display); letter-spacing: -.02em; }
+  .meet .role { margin-top: 8px; font: 600 13px/1.3 var(--body); letter-spacing: .12em; text-transform: uppercase; color: var(--utah-red); }
+  .meet p { margin-top: 14px; color: var(--text); font-size: 16px; }
+  .two { margin-top: 56px; display: grid; grid-template-columns: 1fr 1fr; gap: 48px; }
+  .two p { margin-top: 10px; color: var(--text); }
+  .gets { margin-top: 48px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+  .get { border: 1.5px solid var(--line); border-radius: 24px; padding: 28px 26px; transition: transform .25s, box-shadow .25s; }
+  .get:hover { transform: translateY(-4px); box-shadow: 0 18px 40px rgba(14,13,18,.08); }
+  .ic { width: 46px; height: 46px; border-radius: 14px; background: var(--grad); display: grid; place-items: center; color: #fff; font: 700 20px/1 var(--display); }
+  .get h3 { margin-top: 18px; }
+  .get p { margin-top: 6px; color: var(--text); font-size: 15px; }
+  .quote { margin-top: 48px; padding: 36px 40px; border-radius: 26px; background: var(--ink); color: #fff;
+           font: 700 clamp(22px, 2.6vw, 32px)/1.3 var(--display); letter-spacing: -.01em; }
+
+  /* ---------- workshops ---------- */
+  .workshops { background: var(--soft); }
+  .ws { margin-top: 48px; display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+  .w { background: #fff; border: 1.5px solid var(--line); border-radius: 26px; padding: 28px; display: flex; flex-direction: column; gap: 18px;
+       transition: transform .25s, box-shadow .25s; }
+  .w:hover { transform: translateY(-4px); box-shadow: 0 20px 44px rgba(14,13,18,.09); }
+  .w .top { display: flex; gap: 20px; align-items: center; }
+  .w .tile { width: 72px; height: 72px; border-radius: 18px; font-size: 31px; box-shadow: none; }
+  .w h3 { font-size: 23px; }
+  .w p { color: var(--text); font-size: 15px; }
+  .w .when { margin-top: auto; display: flex; justify-content: space-between; align-items: center; gap: 12px; padding-top: 16px; border-top: 1.5px solid var(--line); font-size: 14px; }
+  .w .when b { display: block; font: 700 11px/1 var(--body); letter-spacing: .14em; text-transform: uppercase; color: var(--muted); margin-bottom: 6px; }
+  .rsvp { font: 700 14px/1 var(--body); color: var(--utah-red); text-decoration: none; white-space: nowrap; }
+  .rsvp:hover { text-decoration: underline; }
+  .bring { margin-top: 18px; display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+  .box { border-radius: 26px; padding: 28px 30px; background: #fff; border: 1.5px solid var(--line); }
+  .box ul { margin-top: 12px; padding-left: 20px; color: var(--text); }
+  .box li { margin-top: 4px; }
+
+  /* ---------- challenge ---------- */
+  .challenge { overflow: hidden; }
+  .challenge .b1 { width: 520px; height: 520px; background: var(--violet); top: -180px; right: -160px; opacity: .5; }
+  .challenge .b2 { width: 480px; height: 480px; background: var(--utah-red); bottom: -120px; left: -240px; opacity: .5; }
+  .challenge .wrap { position: relative; }
+  .steps { margin-top: 48px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+  .step { border: 1px solid rgba(255,255,255,.16); background: rgba(255,255,255,.06); border-radius: 24px; padding: 30px 28px; }
+  .step .n { font: 700 44px/1 var(--display); }
+  .step h3 { margin-top: 16px; color: #fff; }
+  .step p { margin-top: 6px; font-size: 15px; }
+  .prize { margin-top: 18px; border-radius: 24px; padding: 30px 32px; background: var(--grad); display: flex; justify-content: space-between; align-items: center; gap: 20px; }
+  .prize h3 { font-size: 26px; }
+  .prize p { color: #fff !important; opacity: .94; margin-top: 4px; }
+  .badge { font: 700 12px/1 var(--body); letter-spacing: .14em; text-transform: uppercase; background: rgba(0,0,0,.25); padding: 11px 16px; border-radius: 999px; white-space: nowrap; }
+
+  .events { margin-top: 64px; }
+  .events h3.label { font: 700 13px/1 var(--body); letter-spacing: .18em; text-transform: uppercase; color: var(--coral); }
+  .ev { display: grid; grid-template-columns: 160px 1fr auto; gap: 24px; align-items: center; padding: 22px 0; border-top: 1px solid rgba(255,255,255,.14); }
+  .events .ev:first-of-type { margin-top: 18px; }
+  .ev .d { font: 700 13px/1.4 var(--body); letter-spacing: .1em; text-transform: uppercase; color: var(--coral); }
+  .ev h3 { color: #fff; font-size: 20px; }
+  .ev p { font-size: 15px; margin-top: 2px; }
+  .ev .add { color: #fff; font: 600 14px/1 var(--body); text-decoration: none; border: 1.5px solid rgba(255,255,255,.25); padding: 10px 16px; border-radius: 999px; white-space: nowrap; }
+  .ev .add:hover { background: rgba(255,255,255,.08); }
+
+  /* ---------- contact ---------- */
+  .contact .card { display: grid; grid-template-columns: 1fr 200px; gap: 40px; align-items: center; background: var(--soft); border-radius: 32px; padding: clamp(28px, 5vw, 56px); }
+  .contact h2 { margin-top: 10px; }
+  .lines { margin-top: 26px; display: grid; grid-template-columns: auto 1fr; gap: 10px 22px; font-size: 16px; color: var(--text); }
+  .lines b { font: 700 11px/2.2 var(--body); letter-spacing: .14em; text-transform: uppercase; color: var(--muted); }
+  .lines a { text-decoration: none; font-weight: 600; color: var(--ink); }
+  .lines a:hover { color: var(--utah-red); }
+  .contact .ctas { margin-top: 30px; display: flex; flex-wrap: wrap; gap: 12px; }
+  .btn-dark { background: var(--ink); color: #fff; }
+  .btn-dark:hover { transform: translateY(-2px); }
+  .qr { width: 200px; height: 200px; border: 2px dashed #c9c6d3; border-radius: 22px; display: grid; place-items: center; text-align: center;
+        font: 600 12px/1.5 var(--body); letter-spacing: .12em; text-transform: uppercase; color: var(--muted); background: #fff; }
+
+  footer { background: var(--ink); color: #a9a6b3; padding: 40px 0; font-size: 13px; }
+  footer .wrap { display: flex; justify-content: space-between; gap: 24px; flex-wrap: wrap; }
+  footer .fine { max-width: 640px; color: #77748a; font-size: 12px; }
+
+  /* scroll reveal */
+  .reveal { opacity: 0; transform: translateY(28px); transition: opacity .8s ease, transform .8s cubic-bezier(.2,.8,.2,1); }
+  .reveal.in { opacity: 1; transform: none; }
+
+  /* ---------- responsive ---------- */
+  @media (max-width: 900px) {
+    .hero .wrap { grid-template-columns: 1fr; }
+    .tiles { grid-template-columns: repeat(4, 76px); gap: 14px; transform: rotate(-3deg); margin: 8px 0 0; order: -1; }
+    .tiles .tile { width: 76px; height: 76px; border-radius: 19px; font-size: 32px; }
+    .tiles .tile:nth-child(2), .tiles .tile:nth-child(4) { margin-top: 18px; }
+    .ws, .bring, .two { grid-template-columns: 1fr; }
+    .gets, .steps { grid-template-columns: 1fr; }
+    .ev { grid-template-columns: 1fr; gap: 6px; }
+    .ev .add { justify-self: start; margin-top: 8px; }
+  }
+  @media (max-width: 760px) {
+    .links { position: fixed; top: 72px; left: 0; right: 0; flex-direction: column; align-items: stretch; gap: 0; padding: 8px var(--gutter) 24px;
+             background: rgba(14,13,18,.97); border-bottom: 1px solid rgba(255,255,255,.1); transform: translateY(-120%); transition: transform .3s; z-index: -1; }
+    .nav.open .links { transform: none; }
+    .nav.open { background: rgba(14,13,18,.97); }
+    .links li a { display: block; padding: 16px 0; font-size: 17px; border-bottom: 1px solid rgba(255,255,255,.08); }
+    .links li:last-child a { display: flex; margin-top: 16px; justify-content: center; border: 0; }
+    .menu { display: block; }
+    .pillars .wrap { grid-template-columns: 1fr; transform: none; padding-top: 0; padding-bottom: 56px; }
+    .about { padding-top: 80px; }
+    .meet { grid-template-columns: 1fr; padding: 28px; gap: 24px; text-align: center; justify-items: center; }
+    .photo { width: 160px; height: 160px; }
+    .contact .card { grid-template-columns: 1fr; }
+    .qr { width: 160px; height: 160px; }
+    .prize { flex-direction: column; align-items: flex-start; }
+    .w .when { flex-direction: column; align-items: flex-start; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation-duration: .01ms !important; animation-delay: 0s !important; animation-iteration-count: 1 !important; transition: none !important; }
+    .hero h1 .wd { transform: none; }
+    .reveal { opacity: 1; transform: none; }
+  }
+</style>
+</head>
+<body>
+
+<header class="nav" id="nav">
+  <div class="wrap">
+    <a class="brand" href="#top"><span class="dot"></span>Adobe @ The U</a>
+    <button class="menu" id="menu" aria-label="Open menu" aria-expanded="false" aria-controls="links"><span></span><span></span><span></span></button>
+    <ul class="links" id="links">
+      <li><a href="#about">About</a></li>
+      <li><a href="#workshops">Workshops</a></li>
+      <li><a href="#challenge">Challenge</a></li>
+      <li><a href="#contact">Contact</a></li>
+      <li><a class="btn btn-grad" href="#contact">Sign up</a></li>
+    </ul>
+  </div>
+</header>
+
+<main id="top">
+  <!-- ===== Hero ===== -->
+  <section class="hero dark">
+    <div class="blob b1"></div><div class="blob b2"></div><div class="blob b3"></div>
+    <div class="grain"></div>
+    <div class="wrap">
+      <div>
+        <span class="tag"><span class="dot"></span>University of Utah · Adobe Student Ambassador</span>
+        <h1>
+          <span class="line"><span class="wd" style="animation-delay:.15s">Create</span></span>
+          <span class="line"><span class="wd" style="animation-delay:.3s">more</span> <span class="wd" style="animation-delay:.42s">with</span></span>
+          <span class="line"><span class="wd grad-text" style="animation-delay:.56s">Adobe</span></span>
+          <span class="line"><span class="wd" style="animation-delay:.7s">@ The U</span></span>
+        </h1>
+        <p class="lead">Free, hands-on Adobe workshops and creative challenges on campus — open to every student, every major, every skill level.</p>
+        <div class="ctas">
+          <a class="btn btn-grad" href="#workshops">See workshops →</a>
+          <a class="btn btn-ghost" href="#challenge">Join the challenge</a>
+        </div>
+      </div>
+      <div class="tiles" aria-hidden="true">
+        <div class="tile t-ps">Ps</div><div class="tile t-pr">Pr</div>
+        <div class="tile t-ai">Ai</div><div class="tile t-ex">Ex</div>
+      </div>
+    </div>
+    <a class="scroll-cue" href="#about">Scroll ↓</a>
+  </section>
+
+  <!-- ===== Pillars ===== -->
+  <div class="pillars">
+    <div class="wrap">
+      <a class="chip reveal" href="#workshops"><div class="n">01</div><div class="t">Free Workshops</div></a>
+      <a class="chip reveal" href="#challenge"><div class="n">02</div><div class="t">Creative Challenges</div></a>
+      <a class="chip reveal" href="#events"><div class="n">03</div><div class="t">Prizes &amp; Showcase</div></a>
+    </div>
+  </div>
+
+  <!-- ===== About ===== -->
+  <section class="about" id="about">
+    <div class="wrap">
+      <div class="reveal">
+        <div class="eyebrow">Meet your Ambassador</div>
+        <h2>Hi, Utes! I'm here to<br>help you create.</h2>
+        <div class="rule"></div>
+      </div>
+
+      <div class="meet reveal">
+        <div class="photo"><div>Your<br>photo</div></div>
+        <div>
+          <div class="name">[Your Name]</div>
+          <div class="role">Adobe Student Ambassador · U of U</div>
+          <p><span class="ph">[Major · Class year]</span> — Replace this with a short intro: what you study, what you love making
+            (posters, short films, brand design, photo edits…), and your favorite Adobe app. Keep it friendly and 2–3 sentences long.</p>
+        </div>
+      </div>
+
+      <div class="two">
+        <div class="reveal">
+          <h3>What's an Adobe Student Ambassador?</h3>
+          <p>A student who partners with Adobe to bring creative skills to campus. I host workshops, run challenges, and help
+            classmates get comfortable with tools like Photoshop, Premiere Pro, Illustrator and Adobe Express.</p>
+        </div>
+        <div class="reveal">
+          <h3>Who is this for?</h3>
+          <p>Everyone. Whether you're building a class presentation, a club flyer, a résumé, a portfolio or your first short
+            video — you don't need any design background to join.</p>
+        </div>
+      </div>
+
+      <div class="gets">
+        <div class="get reveal"><div class="ic">✦</div><h3>Learn by doing</h3><p>Short, practical sessions where you leave with something you made.</p></div>
+        <div class="get reveal"><div class="ic">↗</div><h3>Build your portfolio</h3><p>Turn class projects into polished pieces you can show off.</p></div>
+        <div class="get reveal"><div class="ic">★</div><h3>Win &amp; get seen</h3><p>Enter challenges for prizes and a spot in the campus showcase.</p></div>
+      </div>
+
+      <div class="quote reveal">"Every Ute has a story to tell — <span class="grad-text">let's make it look amazing.</span>"</div>
+    </div>
+  </section>
+
+  <!-- ===== Workshops ===== -->
+  <section class="workshops" id="workshops">
+    <div class="wrap">
+      <div class="reveal">
+        <div class="eyebrow">Free Workshops</div>
+        <h2>Learn the apps, hands-on.</h2>
+        <div class="rule"></div>
+        <p class="lead">Each session is about 60 minutes, beginner-friendly and totally free. Drop in to one or come to all four.</p>
+      </div>
+
+      <div class="ws">
+        <article class="w reveal">
+          <div class="top"><div class="tile t-ex">Ex</div><h3>Adobe Express: Design in Minutes</h3></div>
+          <p>Make scroll-stopping social posts, flyers and club graphics using templates — fast.</p>
+          <div class="when"><div><b>When &amp; where</b><span class="ph">[Date · Time] · [Location]</span></div><a class="rsvp" href="#contact">RSVP →</a></div>
+        </article>
+        <article class="w reveal">
+          <div class="top"><div class="tile t-ps">Ps</div><h3>Photoshop: Edit Like a Pro</h3></div>
+          <p>Retouch photos, remove backgrounds and try generative tools to build eye-catching images.</p>
+          <div class="when"><div><b>When &amp; where</b><span class="ph">[Date · Time] · [Location]</span></div><a class="rsvp" href="#contact">RSVP →</a></div>
+        </article>
+        <article class="w reveal">
+          <div class="top"><div class="tile t-pr">Pr</div><h3>Premiere Pro: Your First Video</h3></div>
+          <p>Cut, caption and color a short video — perfect for Reels, TikTok and class projects.</p>
+          <div class="when"><div><b>When &amp; where</b><span class="ph">[Date · Time] · [Location]</span></div><a class="rsvp" href="#contact">RSVP →</a></div>
+        </article>
+        <article class="w reveal">
+          <div class="top"><div class="tile t-ai">Ai</div><h3>Illustrator: Logos &amp; Icons</h3></div>
+          <p>Learn vector basics and design a logo or sticker you can use anywhere.</p>
+          <div class="when"><div><b>When &amp; where</b><span class="ph">[Date · Time] · [Location]</span></div><a class="rsvp" href="#contact">RSVP →</a></div>
+        </article>
+      </div>
+
+      <div class="bring">
+        <div class="box reveal"><h3>What to bring</h3>
+          <ul><li>A laptop (charged!)</li><li>An Adobe account (free to create)</li><li>An idea or project you want to work on</li></ul></div>
+        <div class="box reveal"><h3>How to sign up</h3>
+          <ul><li>Use the sign-up link below</li><li>Or DM <span class="ph">@your.handle</span></li><li>Seats are limited — RSVP early</li></ul></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== Challenge & Events ===== -->
+  <section class="challenge dark" id="challenge">
+    <div class="blob b1"></div><div class="blob b2"></div>
+    <div class="wrap">
+      <div class="reveal">
+        <div class="eyebrow">Creative Challenge &amp; Events</div>
+        <h2>Make it. Share it. Win.</h2>
+        <div class="rule"></div>
+      </div>
+
+      <div class="steps">
+        <div class="step reveal"><div class="n grad-text">01</div><h3>Get the prompt</h3><p>A new theme drops each month on <span class="ph">@your.handle</span>.</p></div>
+        <div class="step reveal"><div class="n grad-text">02</div><h3>Create</h3><p>Use any Adobe app — poster, photo, video, logo, anything goes.</p></div>
+        <div class="step reveal"><div class="n grad-text">03</div><h3>Submit &amp; tag</h3><p>Post with <b style="color:#fff">#AdobeAtTheU</b> and tag us to enter.</p></div>
+      </div>
+
+      <div class="prize reveal">
+        <div><h3>Prizes &amp; Campus Showcase</h3><p>Winners get prizes and their work featured at the end-of-semester showcase. [Prize details TBA]</p></div>
+        <span class="badge">Monthly</span>
+      </div>
+
+      <div class="events" id="events">
+        <h3 class="label reveal">Upcoming events</h3>
+        <div class="ev reveal"><div class="d">[Date]</div><div><h3>Challenge Kickoff</h3><p>Theme reveal, quick demo and Q&amp;A · <span class="ph">[Location]</span></p></div><a class="add" href="#contact">RSVP</a></div>
+        <div class="ev reveal"><div class="d">[Date]</div><div><h3>Creative Open Lab</h3><p>Bring your project and get 1-on-1 help · <span class="ph">[Location]</span></p></div><a class="add" href="#contact">RSVP</a></div>
+        <div class="ev reveal"><div class="d">[Date]</div><div><h3>Semester Showcase</h3><p>Celebrate student work and announce winners · <span class="ph">[Location]</span></p></div><a class="add" href="#contact">RSVP</a></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== Contact ===== -->
+  <section class="contact" id="contact">
+    <div class="wrap">
+      <div class="card reveal">
+        <div>
+          <div class="eyebrow">Get in touch</div>
+          <h2>Let's create together.</h2>
+          <div class="lines">
+            <b>Ambassador</b><span>[Your Name]</span>
+            <b>Instagram</b><a href="#">@your.handle</a>
+            <b>Email</b><a href="mailto:you@utah.edu">you@utah.edu</a>
+            <b>Sign up</b><a href="#">[link.to/your-signup]</a>
+          </div>
+          <div class="ctas">
+            <a class="btn btn-grad" href="#">Sign up for a workshop →</a>
+            <a class="btn btn-dark" href="mailto:you@utah.edu">Email me</a>
+          </div>
+        </div>
+        <div class="qr" aria-label="QR code placeholder">QR code<br>here</div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>© 2026 Adobe @ The U · [Your Name]</span>
+    <p class="fine">Adobe, Photoshop, Premiere Pro, Illustrator and Adobe Express are trademarks of Adobe Inc. This site was created by a University of Utah Adobe Student Ambassador.</p>
+  </div>
+</footer>
+
+<script>
+  const nav = document.getElementById('nav');
+  const menu = document.getElementById('menu');
+  const onScroll = () => nav.classList.toggle('scrolled', window.scrollY > 40);
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+
+  menu.addEventListener('click', () => {
+    const open = nav.classList.toggle('open');
+    menu.setAttribute('aria-expanded', open);
+  });
+  document.querySelectorAll('#links a').forEach(a => a.addEventListener('click', () => {
+    nav.classList.remove('open');
+    menu.setAttribute('aria-expanded', 'false');
+  }));
+
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (!e.isIntersecting) return;
+      const sibs = [...e.target.parentElement.children].filter(el => el.classList.contains('reveal'));
+      e.target.style.transitionDelay = `${Math.max(0, sibs.indexOf(e.target)) * 80}ms`;
+      e.target.classList.add('in');
+      io.unobserve(e.target);
+    });
+  }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+</script>
+</body>
+</html>
